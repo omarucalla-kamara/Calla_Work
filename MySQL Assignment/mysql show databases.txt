@@ -1,0 +1,281 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| adrima_cakes       |
+| book_shop          |
+| chicken_coop       |
+| information_schema |
+| my_tweets          |
+| mysql              |
+| omrad_tech         |
+| performance_schema |
+| reader_books       |
+| sakila             |
+| shirts_db          |
+| sys                |
+| world              |
++--------------------+
+13 rows in set (0.08 sec)
+
+mysql> CREATE DATABASE Ubuntu;
+Query OK, 1 row affected (0.07 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| adrima_cakes       |
+| book_shop          |
+| chicken_coop       |
+| information_schema |
+| my_tweets          |
+| mysql              |
+| omrad_tech         |
+| performance_schema |
+| reader_books       |
+| sakila             |
+| shirts_db          |
+| sys                |
+| ubuntu             |
+| world              |
++--------------------+
+14 rows in set (0.00 sec)
+
+mysql> USE Ubuntu;
+Database changed
+mysql> CREATE TABLE Ubuntu_details;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> CREATE TABLE Ubuntu_details (
+    -> Product char(10),
+    -> Quantity INT,
+    -> Price REAL,
+    -> Purchase_cost DECIMAL(10,2),
+    -> Estimated FLOAT
+    -> );
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> DESC Ubuntu_details;
++---------------+---------------+------+-----+---------+-------+
+| Field         | Type          | Null | Key | Default | Extra |
++---------------+---------------+------+-----+---------+-------+
+| Product       | char(10)      | YES  |     | NULL    |       |
+| Quantity      | int           | YES  |     | NULL    |       |
+| Price         | double        | YES  |     | NULL    |       |
+| Purchase_cost | decimal(10,2) | YES  |     | NULL    |       |
+| Estimated     | float         | YES  |     | NULL    |       |
++---------------+---------------+------+-----+---------+-------+
+5 rows in set (0.06 sec)
+
+mysql> -- 3. Display all column and their data type and size in Ubuntu_details:
+mysql> DESC Ubuntu_details;
++---------------+---------------+------+-----+---------+-------+
+| Field         | Type          | Null | Key | Default | Extra |
++---------------+---------------+------+-----+---------+-------+
+| Product       | char(10)      | YES  |     | NULL    |       |
+| Quantity      | int           | YES  |     | NULL    |       |
+| Price         | double        | YES  |     | NULL    |       |
+| Purchase_cost | decimal(10,2) | YES  |     | NULL    |       |
+| Estimated     | float         | YES  |     | NULL    |       |
++---------------+---------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> -- Insert two records into Ubuntu_details:
+mysql> INSERT INTO Ubuntu_details (Product, Quantity, Price, Purchase_cost, Estimated)
+    -> values
+    -> ('Laptop Computer', 8, 7999.99, 8599.99, 8999.99),
+    -> ('Software Packages', 8, 79.99, 85.99, 89.99);
+ERROR 1406 (22001): Data too long for column 'Product' at row 1
+mysql> -- Insert two records into Ubuntu_details:
+mysql> INSERT INTO Ubuntu_details (Product, Quantity, Price, Purchase_cost, Estimated)
+    -> values
+    -> ('Computer', 8, 7999.99, 8599.99, 8999.99),
+    -> ('Softwares', 8, 7999.99, 8599.99, 8999.99);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> -- Add new column to Ubuntu_details table:
+mysql> ALTER TABLE Ubuntu_details
+    -> ADD Geo_Location VARCHAR(20);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> -- 4. The value of Geo_Location:
+mysql> Select Product, Geo_Location FROM Ubuntu_details;
++-----------+--------------+
+| Product   | Geo_Location |
++-----------+--------------+
+| Computer  | NULL         |
+| Softwares | NULL         |
++-----------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> -- 5. Number of character of Product:
+mysql> SELECT LENGTH(Product) FROM Ubuntu_details;
++-----------------+
+| LENGTH(Product) |
++-----------------+
+|               8 |
+|               9 |
++-----------------+
+2 rows in set (0.00 sec)
+
+mysql> -- 6. Change Product field to VARCHAR:
+mysql> ALTER TABLE Ubuntu_details
+    -> MODIFY COLUMN Product VARCHAR(10);
+Query OK, 2 rows affected (0.11 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> DESC Ubuntu_details;
++---------------+---------------+------+-----+---------+-------+
+| Field         | Type          | Null | Key | Default | Extra |
++---------------+---------------+------+-----+---------+-------+
+| Product       | varchar(10)   | YES  |     | NULL    |       |
+| Quantity      | int           | YES  |     | NULL    |       |
+| Price         | double        | YES  |     | NULL    |       |
+| Purchase_cost | decimal(10,2) | YES  |     | NULL    |       |
+| Estimated     | float         | YES  |     | NULL    |       |
+| Geo_Location  | varchar(20)   | YES  |     | NULL    |       |
++---------------+---------------+------+-----+---------+-------+
+6 rows in set (0.04 sec)
+
+mysql> -- 7. Reduce Product to 6:
+mysql> ALTER TABLE Ubuntu_details
+    -> MODIFY COLUMN Product VARCHAR(6);
+ERROR 1265 (01000): Data truncated for column 'Product' at row 1
+mysql> DESC Ubuntu_details;
++---------------+---------------+------+-----+---------+-------+
+| Field         | Type          | Null | Key | Default | Extra |
++---------------+---------------+------+-----+---------+-------+
+| Product       | varchar(10)   | YES  |     | NULL    |       |
+| Quantity      | int           | YES  |     | NULL    |       |
+| Price         | double        | YES  |     | NULL    |       |
+| Purchase_cost | decimal(10,2) | YES  |     | NULL    |       |
+| Estimated     | float         | YES  |     | NULL    |       |
+| Geo_Location  | varchar(20)   | YES  |     | NULL    |       |
++---------------+---------------+------+-----+---------+-------+
+6 rows in set (0.04 sec)
+
+mysql>
+mysql>
+mysql> -- 8. New table name Ubuntu_Holidays:
+mysql> CREATE TABLE Ubuntu_Holidays (
+    -> Holiday DATE,
+    -> Start_time TIME,
+    -> End_time TIMESTAMP WITH TIME ZONE
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WITH TIME ZONE
+)' at line 4
+mysql> -- 8. New table name Ubuntu_Holidays:
+mysql> CREATE TABLE Ubuntu_Holidays (
+    -> Holiday DATE,
+    -> Start_time TIME,
+    -> End_time DATETIMEOFFSET
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DATETIMEOFFSET
+)' at line 4
+mysql> -- 8. New table name Ubuntu_Holidays:
+mysql> CREATE TABLE Ubuntu_Holidays (
+    -> Holiday DATE,
+    -> Start_time TIME,
+    -> End_time TIMESTAMPTZ
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'TIMESTAMPTZ
+)' at line 4
+mysql> -- 8. New table name Ubuntu_Holidays:
+mysql> CREATE TABLE Ubuntu_Holidays (
+    -> Holiday DATE NOT NULL,
+    -> Start_time TIME NOT NULL,
+    -> End_time TIMESTAMP NOT NULL
+    -> );
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> SET @@time_zone = 'system';
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO Ubuntu_Holidays (Holiday, Start_time, End_time)
+    -> values
+    -> ('2023-12-17 07:59:00);
+    '> ';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4
+mysql> INSERT INTO Ubuntu_Holidays (Holiday, Start_time, End_time)
+    -> values
+    -> ('2023-12-17 07:59:00');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO Ubuntu_Holidays (Holiday, Start_time, End_time)
+    -> values
+    -> ('2023-12-17', '07:59:00', '08:00:00');
+ERROR 1292 (22007): Incorrect datetime value: '08:00:00' for column 'End_time' at row 1
+mysql> INSERT INTO Ubuntu_Holidays (Holiday, Start_time, End_time)
+    -> values
+    -> ('2023-12-17', '07:59:00', '2023-12-17 08:05:00');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> UPDATE Ubuntu_Holidys
+    -> SET Holiday = DATEADD(day, 1, Holiday) WHERE Holiday = '2023-12-18';
+ERROR 1146 (42S02): Table 'ubuntu.ubuntu_holidys' doesn't exist
+mysql> UPDATE Ubuntu_Holidays
+    -> SET Holiday = DATEADD(day, 1, Holiday) WHERE Holiday = '2023-12-18';
+ERROR 1305 (42000): FUNCTION ubuntu.DATEADD does not exist
+mysql> UPDATE Ubuntu_Holidays
+    -> SET Holiday = DATE_ADD(holiday, INTERVAL 1 DAY) WHERE Holiday = '2023-12-17';
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE Ubuntu_Holidays
+    -> SET End_time = NOW() WHERE End_time = '2023-12-17 08:05:00';
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> -- 11. out put of Product as New_Product:
+mysql> SELECT Product AS New_Product FROM Ubuntu_details;
++-------------+
+| New_Product |
++-------------+
+| Computer    |
+| Softwares   |
++-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Ubuntu_details
+    -> WHERE product = 'computer' limit 1;
++----------+----------+---------+---------------+-----------+--------------+
+| Product  | Quantity | Price   | Purchase_cost | Estimated | Geo_Location |
++----------+----------+---------+---------------+-----------+--------------+
+| Computer |        8 | 7999.99 |       8599.99 |   8999.99 | NULL         |
++----------+----------+---------+---------------+-----------+--------------+
+1 row in set (0.04 sec)
+
+mysql> select Geo_Location from Ubuntu_details limit 0,5;
++--------------+
+| Geo_Location |
++--------------+
+| NULL         |
+| NULL         |
++--------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT SUBSTR(Geo_Location, 1, 5) AS Geo_Location_Substr From Ubuntu_details;
++---------------------+
+| Geo_Location_Substr |
++---------------------+
+| NULL                |
+| NULL                |
++---------------------+
+2 rows in set (0.04 sec)
+
+mysql> SELECT * FROM ubuntu_details
+    -> where geo_location is null;
++-----------+----------+---------+---------------+-----------+--------------+
+| Product   | Quantity | Price   | Purchase_cost | Estimated | Geo_Location |
++-----------+----------+---------+---------------+-----------+--------------+
+| Computer  |        8 | 7999.99 |       8599.99 |   8999.99 | NULL         |
+| Softwares |        8 | 7999.99 |       8599.99 |   8999.99 | NULL         |
++-----------+----------+---------+---------------+-----------+--------------+
+2 rows in set (0.10 sec)
+
+mysql> SELECT * FROM ubuntu_details
+    -> where geo_location = null;
+Empty set (0.00 sec)
+
+mysql>
